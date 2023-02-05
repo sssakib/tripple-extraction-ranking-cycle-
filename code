@@ -1,0 +1,151 @@
+pip install CoolProp
+import CoolProp as cp
+print('CoolProp version:', cp.__version__)
+from CoolProp.CoolProp import PropsSI
+
+#state 1
+p1=10e3
+q1=0
+h1=(PropsSI('H','P',p1,'Q',q1,'Water'))
+print('h1=',h1/1000,'kJ/kg')
+d1 = (PropsSI('D','P', p1,'Q',q1,'Water'))
+v1=1/d1
+s1=(PropsSI('S','P', p1,'Q',q1,'Water'))
+t1=(PropsSI('T','P', p1,'Q',q1,'Water'))
+
+#state 2
+p2=5e5
+q3=0
+s2=s1
+h2 =(PropsSI('H','P',p2,'S',s2,'Water'))
+print('h2=',h2/1000,'kJ/kg')
+wPump1=h2-h1
+
+
+#state 3 
+p3=5e5
+q3=0
+h3=(PropsSI('H','P',p3,'Q',q3,'Water'))
+print('h3=',h3/1000,'kJ/kg')
+d3 = (PropsSI('D','P', p3,'Q',q3,'Water'))
+v3 = 1/d3
+
+s3 = PropsSI('S','P', p3,'Q',q3, 'Water')
+
+#state 4
+s4=s3
+p4=6e6
+h4 =(PropsSI('H','P',p4,'S',s4,'Water'))
+print('h4=',h4/1000,'kJ/kg')
+wPump2=h4-h3
+
+
+#state 5
+p5=p4
+q5=0
+h5=(PropsSI('H','P',p5,'Q',q5,'Water'))
+print('h5=',h5/1000,'kJ/kg')
+d5 = (PropsSI('D','P', p5,'Q',q5,'Water'))
+v5 = 1/d5
+
+s5 = PropsSI('S','P', p5,'Q',q5, 'Water')
+
+#state 6
+p6=25e6
+s6=s5
+h6 =(PropsSI('H','P',p6,'S',s6,'Water'))
+print('h6=',h6/1000,'kJ/kg')
+wPump3=h6-h5
+
+
+#state 8
+q8=0
+p8=12e6
+h8=(PropsSI('H','P',p8,'Q',q8,'Water'))
+print('h8=',h8/1000,'kJ/kg')
+d8 = (PropsSI('D','P', p8,'Q',q8,'Water'))
+v8 = 1/d8
+
+s8 = PropsSI('S','P', p8,'Q',q8, 'Water')
+
+#state 7
+h7=h8
+print('h7=',h7/1000,'KJ/kg')
+
+#state 9
+p9=25e6
+s9=s8
+h9 =(PropsSI('H','P',p9,'S',s9,'Water'))
+print('h9=',h9/1000,'KJ/kg')
+wPump4 = h9 - h8
+
+
+#state 11
+p11 = 25e6
+t11 = 1100
+h11=(PropsSI('H','P', p11,'T',t11,'Water'))
+print('h11=',h11/1000,'KJ/kg')
+s11 = PropsSI('S','P', p11,'T',t11,'Water')
+
+#state 10
+
+##state 12
+p12=p8
+s12=s11
+h12=(PropsSI('H','P',p12,'S',s12,'Water'))
+print('h12=',h12/1000,'KJ/kg')
+##state 13
+
+t13=t11
+p13=p12
+s13=PropsSI('S','P', p13,'T',t13,'Water')
+h13=PropsSI('H','P', p13,'T',t13,'Water')
+print('h13 =',h13/1000,'KJ/kg')
+
+#state 14
+s14=s13
+p14=p13
+h14=PropsSI('H','P', p14,'S',s14,'Water')
+print('h14 =',h14/1000,'KJ/kg')
+##state 15 
+t15=t11
+p15=p5
+h15=PropsSI('H','P', p15,'T',t15,'Water')
+s15=PropsSI('S','P', p15,'T',t15,'Water')
+print('h15 =',h15/1000,'KJ/kg')
+
+##state 16
+s16=s15
+p16=p3
+h16=PropsSI('H','P', p16,'S',s16,'Water')
+print('h16 =',h16/1000,'KJ/kg')
+
+#state 17 
+t17=t1
+s17=s15
+
+h17=PropsSI('H','T', t17,'S',s17,'Water')
+print('h17 =',h17/1000,'KJ/kg')
+
+
+##CLOSED FEEED WATER HEATER 
+x=(h7-h6)/(h12-h6+h7-h8)
+print('first mass fraction of pump 3 = ',x)
+##Open feed water heater 1
+y=((1-x)*(h5-h4))/(h14-h4)
+print('Mass fraction of pump 2 = ',y)
+##open feed water heater 2
+z=((1-x-y)*(h3-h2))/(h16-h2)
+
+##mixing chamber 
+
+
+print('Mass fraction of pump 3 = ',z)
+print('Specific Volume 1=',v1,'m3/kg')
+print('SpecificVolume_3=',v3,'m3/kg')
+print('SpecificVolume_5=',v5,'m3/kg')
+print('SpecificVolume_8=',v8,'m3/kg')
+print('workdone by pump 1=',wPump1/1000,'Watt')
+print('workdone by pump 2=',wPump2/1000,'Watt')
+print('workdone by pump 3=',wPump3/1000,'Watt')
+print('workdone by pump 4=',wPump4/1000,'Watt')
